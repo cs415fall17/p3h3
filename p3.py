@@ -42,7 +42,7 @@ def pad(a):
 	while length_a > power_of_2:
 		power_of_2  = power_of_2 * 2
 
-	return a + [0 for i in range(power_of_2 - length_a)]
+	return a + [0 for i in range((2 ** power_of_2) - length_a)]
 
 def multFFT(a, b):
 
@@ -57,12 +57,21 @@ def multFFT(a, b):
 	print("b", b)
 	c = [a[i] * b[i] for i in range(len(a))]
 	print("c", c)
+	#d = cooefficients(a, b)
+	#print("d", d)
 	c = fftInverse(c)
 	return c
 
-def cooefficients(a, b):
+def multSlow(a, b):
 
-	return [ sum([a[j] * b[k - j] for j in range(k)]) for k in range(len(a))]
+	print("a", a)
+	print("b", b)
+	#print([(a[j] * b[0 - j]) for j in range(1)])
+	#print([(a[j] * b[1 - j]) for j in range(2)])
+	#print([(a[j] * b[2 - j]) for j in range(3)])
+	#print([(a[j] * b[3 - j]) for j in range(4)])
+
+	return [ sum([a[j] * b[k - j] for j in range(k + 1)]) for k in range(len(a))]
 
 def outputToFile(file_name, file_string):
 
@@ -109,10 +118,12 @@ def check():
 #print(timeit.timeit(n, number = 1))
 #outputToFile("test.txt", str(timeit.timeit(n, number = 1)))
 
-x = multFFT([1,1, 0, 0], [1,1, 0, 0])
+x = multFFT([1,1], [1,1])
 x = [a.real for a in x]
 print("final_answer", x)
 
+y = multSlow([1, 1, 0, 0], [1, 1, 0, 0])
+print("final_answer", y)
 quit()
 my_code =[round(a.real) for a in fft([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1, 0, 0, 0, 0])]
 x = [round(a.real) for a in np.fft.fft([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1, 0, 0, 0, 0])]
