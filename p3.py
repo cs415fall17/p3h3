@@ -9,15 +9,13 @@ def fft(a):
 	else:
 		a_even = [a[i] for i in range(len(a)) if i % 2 == 0]
 		a_odd = [a[i] for i in range(len(a)) if i % 2 == 1]
-		#a = a[0::1]
-		#a = a[1::1]
 		a_even = fft(a_even)
 		a_odd = fft(a_odd)
 
 		r = [0] * len(a)
 		n_max = len(a) // 2
 		# principle root of unity (w^1)
-		e_exponent = (-2 * math.pi) / len(a)
+		e_exponent = (2 * math.pi) / len(a)
 		w = complex(math.cos(e_exponent), math.sin(e_exponent))
 
 		for i in range(n_max):
@@ -26,12 +24,12 @@ def fft(a):
 		return r
 
 def fftInverse(a):
-	print("a", a)
+	#print("a", a)
 	a = fft(a)
-	print("fft(a)", a)
+	#print("fft(a)", a)
 	length_a = len(a)
 	inverted = [a[0]] + [a[i] for i in range(len(a) - 1, 0, -1)]
-	print("inverted", inverted)
+	#print("inverted", inverted)
 	final_answer = [complex(element.real // length_a, element.imag // length_a)  for element in inverted]
 	return [complex(element.real // length_a, element.imag // length_a) for element in inverted]
 
@@ -41,22 +39,25 @@ def pad(a):
 	length_a = len(a)
 	while length_a > power_of_2:
 		power_of_2  = power_of_2 * 2
-
-	return a + [0 for i in range((2 ** power_of_2) - length_a)]
+	print(power_of_2)
+	print(a)
+	print(a + [0 for i in range((power_of_2) - length_a)])
+	#quit()
+	return a + [0 for i in range((power_of_2) - length_a)]
 
 def multFFT(a, b):
 
 	a = pad(a)
 	b = pad(b)
 	print(a)
-	print(b)
-
+	#print(b)
+	#quit()
 	a = fft(a)
 	b = fft(b)
-	print("fft(a)", a)
-	print("fft(b)", b)
+	#print("fft(a)", a)
+	#print("fft(b)", b)
 	c = [a[i] * b[i] for i in range(len(a))]
-	print("c", c)
+	#print("c", c)
 	#d = cooefficients(a, b)
 	#print("d", d)
 	c = fftInverse(c)
@@ -105,6 +106,14 @@ def wrapper(func, *args, **kwargs):
 
 def check():
 	return fft(pad([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1]))
+def multFFTNumpy(A, B):
+
+  a = np.fft.fft(A)
+  b = np.fft.fft(B)
+
+  C = [a[i] * b[i] for i in range(len(A))]
+  m = np.fft.ifft(C)
+  return m
 
 #print(fft(pad([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1])))
 #print(np.fft.fft(pad([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1])))
@@ -112,12 +121,15 @@ def check():
 #print(timeit.timeit(n, number = 1))
 #outputToFile("test.txt", str(timeit.timeit(n, number = 1)))
 
-x = multFFT([1,1], [1,1])
+x = multFFT([1,1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0], [7, 6, 5, 4, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0])
 x = [a.real for a in x]
 print("final_answer", x)
-
-y = multSlow([1, 1], [1, 1])
+y = multFFTNumpy([1,1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0], [7, 6, 5, 4, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0])
+y = [round(a.real) for a in y]
+print("numpy version")
 print("final_answer", y)
+n = multSlow([1,1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0], [7, 6, 5, 4, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0])
+print("final_answer", n)
 quit()
 my_code =[round(a.real) for a in fft([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1, 0, 0, 0, 0])]
 x = [round(a.real) for a in np.fft.fft([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1, 0, 0, 0, 0])]
