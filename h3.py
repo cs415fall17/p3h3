@@ -1,7 +1,11 @@
+#p5
+	# w = 3
+
+#p3
 def hgcd(a, b):
 	a = abs(a)
 	b = abs(b)
-	print('(', a, ',', b, ')')
+	print(a, ',', b)
 	# base case
 	if b == 0:
 		return a
@@ -25,7 +29,7 @@ def hgcd(a, b):
 def hgcdv(a, b):
 	a = abs(a)
 	b = abs(b)
-	print('(', a, ',', b, ')')
+	print(a, ',', b)
 	# base case
 	if b == 0:
 		return a
@@ -60,7 +64,7 @@ def bothAreOdd(a, b):
 		return False
 
 def gcd(a, b):
-	print('(', a, ',', b, ')')
+	print(a, ',', b)
 
 	if b == 0:
 		return a
@@ -101,25 +105,27 @@ def gcdCheck(a, b):
 #hgcd(21, 25)
 #print()
 #gcd(21, 25)
+
 print("h is significantly slower")
-print(hgcd(98, 48))
-print(gcd(98, 48))
+print(hgcd(32, 48))
+print(gcd(32, 48))
 print("hg is faster")
 print(hgcd(30, 52))
 print(gcd(30, 52))
 
 print("g is faster")
-print(hgcd(99, 70))
-print(gcd(99, 70))
+print(hgcd(18, 39))
+print(gcd(18, 39))
 
-print(hgcdv(123, 87))
+#print(hgcdv(123, 87))
+
 exit()
 for i in range(100):
 	for j in range(100):
-		if hgcdCheck(i, j) < gcdCheck(i, j):
-			print("hg is faster")
-			print(i, j)
-			print(hgcd(i, j), "\n",gcd(i, j))
+		#if hgcdCheck(i, j) < gcdCheck(i, j):
+		#	print("hg is faster")
+		#	print(i, j)
+		#	print(hgcd(i, j), "\n",gcd(i, j))
 			#print("---------")
 			#print(hgcd(i, j))
 
@@ -127,15 +133,15 @@ for i in range(100):
 			#print(gcd(i, j))
 			#print("---------")
 			#print()
-		#elif hgcdCheck(i, j) > gcdCheck(i, j):
+		#if hgcdCheck(i, j) > gcdCheck(i, j):
 		#	print("g is faster")
 		#	print(i, j)
 		#	print(hgcd(i, j), "\n",gcd(i, j))
 
-		elif hgcdCheck(i, j) >= 2 * gcdCheck(i, j):
+		if hgcdCheck(i, j) >= 2 * gcdCheck(i, j):
 			print("h is significantly slower")
 			print(i, j)
-			print(hgcd(i, j), "\n",gcd(i, j))
+			print(hgcd(i, j), "\n\n",gcd(i, j))
 
 
 '''
