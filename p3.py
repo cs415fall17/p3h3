@@ -15,6 +15,7 @@ def fft(a):
 		r = [0] * len(a)
 		n_max = len(a) // 2
 		# principle root of unity (w^1)
+		# e^(2(pi) )
 		e_exponent = (2 * math.pi) / len(a)
 		w = complex(math.cos(e_exponent), math.sin(e_exponent))
 
@@ -28,22 +29,28 @@ def fftInverse(a):
 	a = fft(a)
 	#print("fft(a)", a)
 	length_a = len(a)
+	# [len(a) - 1, 1]
 	inverted = [a[0]] + [a[i] for i in range(len(a) - 1, 0, -1)]
 	#print("inverted", inverted)
 	final_answer = [complex(element.real // length_a, element.imag // length_a)  for element in inverted]
 	return [complex(element.real // length_a, element.imag // length_a) for element in inverted]
 
 def pad(a):
-	# have to double the size with 0's?
 	power_of_2 = 1
 	length_a = len(a)
 	while length_a > power_of_2:
 		power_of_2  = power_of_2 * 2
 	print(power_of_2)
 	print(a)
-	print(a + [0 for i in range((power_of_2) - length_a)])
+	print(a + [0] * (power_of_2 - length_a)
 	#quit()
-	return a + [0 for i in range((power_of_2) - length_a)]
+
+	# add 0's to a so len(a) is a power of 2
+	a = a + [0] * (power_of_2 - length_a)
+
+	# have to double the size with 0's after the padding has been added
+
+	return a + [0] * (2 * len(a))
 
 def multFFT(a, b):
 
@@ -66,7 +73,7 @@ def multFFT(a, b):
 def multSlow(a, b):
 	a = pad(a)
 	b = pad(b)
-	return [ sum([a[j] * b[k - j] for j in range(k + 1)]) for k in range(len(a))]
+	return [ sum([a[j] * b[k - j] for j in range(k + 1)]) * 1.0 for k in range(len(a))]
 
 def outputToFile(file_name, file_string):
 
@@ -84,7 +91,6 @@ def printComplex(A):
 		b = 0
 	#print(A)
 	return complex(a, b)
-
 
 #print(fft([1, 0]))
 
@@ -120,7 +126,11 @@ def multFFTNumpy(A, B):
 #n = wrapper(fft, pad([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1]))
 #print(timeit.timeit(n, number = 1))
 #outputToFile("test.txt", str(timeit.timeit(n, number = 1)))
+a = [1, 2, 1]
+print("decimal version if [1, 2, 1] was interpreted as a partial result from a binary multiplication")
+print(sum([a[i] * (2 ** i) for i in range(len(a))]))
 
+print()
 x = multFFT([1,1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0], [7, 6, 5, 4, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0])
 x = [a.real for a in x]
 print("final_answer", x)
@@ -130,6 +140,7 @@ print("numpy version")
 print("final_answer", y)
 n = multSlow([1,1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0], [7, 6, 5, 4, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0])
 print("final_answer", n)
+
 quit()
 my_code =[round(a.real) for a in fft([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1, 0, 0, 0, 0])]
 x = [round(a.real) for a in np.fft.fft([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1, 0, 0, 0, 0])]
