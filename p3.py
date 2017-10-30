@@ -53,8 +53,8 @@ def multFFT(a, b):
 
 	a = fft(a)
 	b = fft(b)
-	print("a", a)
-	print("b", b)
+	print("fft(a)", a)
+	print("fft(b)", b)
 	c = [a[i] * b[i] for i in range(len(a))]
 	print("c", c)
 	#d = cooefficients(a, b)
@@ -63,14 +63,8 @@ def multFFT(a, b):
 	return c
 
 def multSlow(a, b):
-
-	print("a", a)
-	print("b", b)
-	#print([(a[j] * b[0 - j]) for j in range(1)])
-	#print([(a[j] * b[1 - j]) for j in range(2)])
-	#print([(a[j] * b[2 - j]) for j in range(3)])
-	#print([(a[j] * b[3 - j]) for j in range(4)])
-
+	a = pad(a)
+	b = pad(b)
 	return [ sum([a[j] * b[k - j] for j in range(k + 1)]) for k in range(len(a))]
 
 def outputToFile(file_name, file_string):
@@ -122,7 +116,7 @@ x = multFFT([1,1], [1,1])
 x = [a.real for a in x]
 print("final_answer", x)
 
-y = multSlow([1, 1, 0, 0], [1, 1, 0, 0])
+y = multSlow([1, 1], [1, 1])
 print("final_answer", y)
 quit()
 my_code =[round(a.real) for a in fft([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1, 0, 0, 0, 0])]
