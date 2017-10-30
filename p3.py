@@ -33,8 +33,6 @@ def fftInverse(a):
 	inverted = [a[0]] + [a[i] for i in range(len(a) - 1, 0, -1)]
 	print("inverted", inverted)
 	final_answer = [complex(element.real // length_a, element.imag // length_a)  for element in inverted]
-	x = [n.real for n in final_answer]
-	print("final_answer", x)
 	return [complex(element.real // length_a, element.imag // length_a) for element in inverted]
 
 def pad(a):
@@ -111,7 +109,9 @@ def check():
 #print(timeit.timeit(n, number = 1))
 #outputToFile("test.txt", str(timeit.timeit(n, number = 1)))
 
-multFFT([1,1, 0, 0], [1,1, 0, 0])
+x = multFFT([1,1, 0, 0], [1,1, 0, 0])
+x = [a.real for a in x]
+print("final_answer", x)
 
 quit()
 my_code =[round(a.real) for a in fft([-1, 0, 1, 2, -2,0, 8, 5, 4, 1, 0, 1, 0, 0, 0, 0])]
