@@ -5,11 +5,12 @@
 def hgcd(a, b):
 	a = abs(a)
 	b = abs(b)
-	print(a, ',', b)
+	print("(",a, ",", b, ")")
 	# base case
+	# other persons
 	if b == 0:
 		return a
-	elif bothAreEven(a, b):
+	if bothAreEven(a, b):
 
 		return 2 * hgcd( a // 2, b // 2 )
 
@@ -17,13 +18,15 @@ def hgcd(a, b):
 		return hgcd( a, b // 2 )
 
 	# extra part to prevent infinite call stack when a and b are odd and (a - b) // 2 == a
-	elif bothAreOdd(a, b) or (a - b) // 2 == a:
+	elif bothAreOdd(a, b) and abs((a - b) // 2) == a:
 		return hgcd(b, a % b)
+
 	elif bothAreOdd(a, b):
 		# |1 - 3| // 2 == 1
-		return hgcd( (a - b) // 2, b )
+		return hgcd( abs((a - b) // 2), b )
 	# extra part to prevent infinite call stack when a is even and b is odd
 	else:
+	
 		return hgcd(b, a % b)
 
 def hgcdv(a, b):
@@ -64,7 +67,7 @@ def bothAreOdd(a, b):
 		return False
 
 def gcd(a, b):
-	print(a, ',', b)
+	print("(",a, ",", b, ")")
 
 	if b == 0:
 		return a
@@ -76,17 +79,17 @@ def hgcdCheck(a, b):
 	# base case
 	if b == 0:
 		return 1
-	elif bothAreEven(a, b):
+	if bothAreEven(a, b):
 
 		return (2 * hgcdCheck( a // 2, b // 2 ))//2 + 1
 
 	elif (not isEven(a)) and isEven(b):
 		return hgcdCheck( a, b // 2 ) + 1
-	elif bothAreOdd(a, b) or (a - b) // 2 == a:
+	elif bothAreOdd(a, b) and abs((a - b) // 2) == a:
 		return hgcdCheck(b, a % b) + 1
 	elif bothAreOdd(a, b):
 		# |1 - 3| // 2 == 1
-		return hgcdCheck( (a - b) // 2, b ) + 1
+		return hgcdCheck( abs((a - b) // 2), b ) + 1
 	# extra part to prevent infinite call stack when a is even and b is odd
 	else:
 		return hgcdCheck(b, a % b) + 1
@@ -106,26 +109,56 @@ def gcdCheck(a, b):
 #print()
 #gcd(21, 25)
 
+print("hg is faster")
+print(hgcd(34, 53))
+print(gcd(34, 53))
+
+
 print("h is significantly slower")
 print(hgcd(32, 48))
 print(gcd(32, 48))
-print("hg is faster")
-print(hgcd(30, 52))
-print(gcd(30, 52))
+
+
 
 print("g is faster")
-print(hgcd(18, 39))
-print(gcd(18, 39))
+print(hgcd(18, 45))
+print(gcd(18, 45))
 
-#print(hgcdv(123, 87))
+#print(hgcd(123, 87))
+
+vector = [0, 1, 1, 1, 5, 2]
+print(vector)
+x = [[(3 ** (i * j) % 7) for i in range(6)] for j in range(6)]
+print("x")
+[print(a) for a in x]
+
+transformed_vector = [sum([vector[i] * x[j][i] for i in range(6)]) % 7 for j in range(6)]
+[print(a) for a in transformed_vector]
+
+print([[x[j][i] for i in range(len(x[j]))] for j in range(len(x))])
+quit()
+y = [[(3 ** (i * j) % 7) for i in range(6)] for j in range(6)]
+[print([ round(i)for i in a]) for a in y]
+
+original_vector = [sum([transformed_vector[i] * y[j][i] for i in range(6)]) % 7 for j in range(6)]
+
+original_vector = [original_vector[0]] + [original_vector[i] for i in range(len(original_vector) - 1, 0, -1)]
+original_vector = [a for a in original_vector]
+[print(round(a)) for a in original_vector]
 
 exit()
+
 for i in range(100):
 	for j in range(100):
-		#if hgcdCheck(i, j) < gcdCheck(i, j):
-		#	print("hg is faster")
-		#	print(i, j)
-		#	print(hgcd(i, j), "\n",gcd(i, j))
+		
+		#print(i, j)
+		if hgcdCheck(i, j) < gcdCheck(i, j):
+			print("hg is faster")
+			print(i, j)
+			#print(hgcd(i, j))
+			#print()
+			#print(gcd(i, j))
+			print()
 			#print("---------")
 			#print(hgcd(i, j))
 
@@ -133,16 +166,29 @@ for i in range(100):
 			#print(gcd(i, j))
 			#print("---------")
 			#print()
-		#if hgcdCheck(i, j) > gcdCheck(i, j):
-		#	print("g is faster")
-		#	print(i, j)
-		#	print(hgcd(i, j), "\n",gcd(i, j))
-
-		if hgcdCheck(i, j) >= 2 * gcdCheck(i, j):
-			print("h is significantly slower")
+		
+		elif hgcdCheck(i, j) > gcdCheck(i, j):
+			print("g is faster")
 			print(i, j)
-			print(hgcd(i, j), "\n\n",gcd(i, j))
+			#print(hgcd(i, j))
+			print()
+			#print(gcd(i, j))
+		
+		elif hgcdCheck(i, j) >= 2 * gcdCheck(i, j):
+			print("h is significantly slower")
+			#print(i, j)
+			#print(hgcd(i, j))
+			#print()
+			#print(gcd(i, j))
+			#h_is_significantly_slower = True
+			print()
+		
+print(hgcd(123, 87))
 
+print(hgcd(13, 21))
+
+[print([j ** i % 7 for i in range(6)]) for j in range(6)]
+print(sum([1, 5, 4, 6, 2, 3]) % 7)
 
 '''
 13 8
