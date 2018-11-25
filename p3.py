@@ -49,6 +49,7 @@ def fft(a):
 
 def fftInverse(a):
 
+	# computes the fft inverse
 	a = fft(a)
 
 	length_a = len(a)
@@ -59,6 +60,7 @@ def fftInverse(a):
 	return [complex(element.real // length_a, element.imag // length_a) for element in inverted]
 
 def pad(a):
+	# adds 0's to the end of a
 	power_of_2 = 1
 	length_a = len(a)
 	while length_a > power_of_2:
@@ -96,22 +98,26 @@ def multSlow(a, b):
 
 def outputToFile(file_name, file_string):
 
+	# outputs to file_name
 	file = open(file_name, 'w')
 	file.write(file_string)
 	file.close
 
 def multFFTNumpy(A, B):
 
-  a = np.fft.fft(A)
-  b = np.fft.fft(B)
+	# the numpy version of polynomial multiplication using fft
+	a = np.fft.fft(A)
+	b = np.fft.fft(B)
 
-  C = [a[i] * b[i] for i in range(len(A))]
-  m = np.fft.ifft(C)
-  return m
+	C = [a[i] * b[i] for i in range(len(A))]
+	m = np.fft.ifft(C)
+	return m
 
 
 def demo():
 
+	# this demo shows the difference in the time it takes for regular polynomial multiplication contrasted to the
+	# polynomial multiplication using fft
 	start_0 = time.time()
 	answer_0 = multFFT(
 	[1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1],
